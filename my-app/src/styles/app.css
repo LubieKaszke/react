@@ -1,0 +1,9 @@
+@import './variables.scss';
+
+.gray{
+    filter: grayscale(100%);
+}
+
+.invert {
+    filter: invert(100%);
+}
