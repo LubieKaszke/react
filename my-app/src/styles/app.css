@@ -1,9 +1,28 @@
-@import './variables.scss';
+.upload-message{
+    font-size: 40px;
+    justify-content: center;
+    font-weight: 700;
+  }
+  
+  input[type="file"] {
+    display: none;
+  }
+  .custom-file-upload {
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #39D2B4;
+    color: white;
+    font-weight: 500;
+    transition: all .4s;
+    margin:10px;
+  }
+  
+  .custom-file-upload:hover {
+    color:  #39D2B4;
+    background-color: rgb(29, 40, 63);
+  }
 
-.gray{
-    filter: grayscale(100%);
-}
-
-.invert {
-    filter: invert(100%);
-}
+  .image{
+      padding: 20px;
+  }

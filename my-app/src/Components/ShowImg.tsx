@@ -1,8 +1,8 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import FilterImg from './FilterImg';
 import Rotate from './Rotate';
 import '../styles/app.css';
+import '../styles/input.css';
 
 
   interface IProps{
@@ -11,12 +11,12 @@ import '../styles/app.css';
 
     interface IState{
         fileURL: string | '',
-        rotation: 0,
-        isGrayscale: boolean,
-        isInvert: boolean,
+        rotation: number,
+        grayscale: number,
+        contrast: number,
+        brightness: number,
+        sepia: number,
     }
-
-    let classValue:any;
 
 class ShowImg extends React.Component<IProps, IState> {
 
@@ -25,11 +25,16 @@ class ShowImg extends React.Component<IProps, IState> {
         this.state = {
             fileURL: this.props.fileURL,
             rotation:0,
-            isGrayscale: false,
-            isInvert: false,
+            grayscale: 0,
+            contrast: 100,
+            brightness: 100,
+            sepia :1
         }
         this.updateRotation.bind(this);
         this.updateGrayscale.bind(this);
+        this.updateBrightness.bind(this);
+        this.updateContrast.bind(this);
+        this.updateSepia.bind(this);
 
     }
     public updateRotation = (event: React.FormEvent<HTMLInputElement>):void => {
@@ -38,36 +43,61 @@ class ShowImg extends React.Component<IProps, IState> {
         })
     }
 
-    public updateGrayscale = ():void => {
+    public updateGrayscale = (event: React.FormEvent<HTMLInputElement>):void => {
+        this.setState({
+            grayscale:(event.target as any).value
+        })
+    }
 
-        !this.state.isGrayscale ?
+    public updateBrightness = (event: React.FormEvent<HTMLInputElement>):void => {
         this.setState({
-            isGrayscale: true
+            brightness:(event.target as any).value
         })
-        :
+    }
+
+    public updateContrast = (event: React.FormEvent<HTMLInputElement>):void => {
         this.setState({
-            isGrayscale: false
+            contrast:(event.target as any).value
         })
+    }
+
+    public updateSepia = (event: React.FormEvent<HTMLInputElement>):void => {
+        this.setState({
+            sepia:(event.target as any).value
+        })
+    }
+
+   public componentDidUpdate(oldProps: IProps) {
+        const newProps =this.props;
+        if(oldProps.fileURL !== newProps.fileURL){
+            this.setState({
+                fileURL: this.props.fileURL,
+                rotation:0,
+                grayscale: 0,
+                contrast: 100,
+                brightness: 100,
+                sepia :1
+            })
+        }
 
     }
 
    public render(){
-    classValue = classNames({
-        'gray': this.state.isGrayscale,
-        'invert': this.state.isInvert,
-
-    });
-        const { rotation } =  this.state;
+        const { rotation, grayscale, brightness, contrast,sepia } =  this.state;
         return <div id="showImg" className = "showImg">
-        <img className={classValue}
+        <img className="image"
         style={
-                {transform: `rotate(${rotation}deg)`}
+                {transform: `rotate(${rotation}deg)`,
+                filter: `grayscale(${grayscale}%) brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%)` }
                 } 
             src={this.state.fileURL} 
             alt="picture"
             />
         <Rotate updateRotation = {(r:any) => this.updateRotation(r)} />
-        <FilterImg updateGrayscale ={this.updateGrayscale} />
+        <FilterImg min="0" max="100" label="Grayscale" action = {this.updateGrayscale} />
+        <FilterImg min="0" max="200" label="Brightness" action = {this.updateBrightness} />
+        <FilterImg min="0" max="200" label="Contrast" action = {this.updateContrast} />
+        <FilterImg min="1" max="100" label="Sepia" action = {this.updateSepia} />
     </div>
     }
 

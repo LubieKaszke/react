@@ -4,8 +4,14 @@ const FilterImg: React.SFC<any> = (props) => {
     
     return (
         <div>
-            <button onClick={props.updateGrayscale}>Add grayscale</button>
-            <button>Add invert</button>
+            <label htmlFor="start"> {props.label}</label>
+              <input 
+                type="range" 
+                id="start" 
+                min={props.min} 
+                max={props.max} 
+                onChange={props.action}
+                />
         </div>
 
     );

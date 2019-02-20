@@ -5,6 +5,8 @@
   "dependencies": {
     "@types/classnames": "^2.2.7",
     "classnames": "^2.2.6",
+    "get-pixels": "^3.3.2",
+    "image-size": "^0.7.2",
     "node-sass": "^4.11.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",

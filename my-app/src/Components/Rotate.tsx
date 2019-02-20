@@ -4,7 +4,8 @@ const Rotate: React.SFC<any> = (props) => {
         
         return (
             <div>
-                <input type="number" onChange={props.updateRotation} /> 
+                <label htmlFor="rotate"> Angle</label>
+                <input id="rotate" type="number" onChange={props.updateRotation} /> 
             </div>
 
         );
