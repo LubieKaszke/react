@@ -5,9 +5,7 @@ import ShowImg from './ShowImg';
 interface IState{
   file: File | null,
   fileURL: string | '',
-  rotation: number,
-  width: number,
-  height: number
+  rotation: number
 }
 
 
@@ -18,9 +16,7 @@ class FileUploader extends React.Component<any,IState> {
     this.state ={ 
       file : null,
       fileURL: '',
-      rotation: 0,
-      width: 0,
-      height: 0
+      rotation: 0
     }
     this.handlerChange.bind(this);
     
