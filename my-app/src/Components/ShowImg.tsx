@@ -1,6 +1,7 @@
 import * as React from 'react';
 import FilterImg from './FilterImg';
 import Rotate from './Rotate';
+import Image from './Image';
 import '../styles/app.css';
 import '../styles/input.css';
 
@@ -16,6 +17,8 @@ import '../styles/input.css';
         contrast: number,
         brightness: number,
         sepia: number,
+        width:number,
+        height:number
     }
 
 class ShowImg extends React.Component<IProps, IState> {
@@ -28,14 +31,10 @@ class ShowImg extends React.Component<IProps, IState> {
             grayscale: 0,
             contrast: 100,
             brightness: 100,
-            sepia :1
+            sepia: 1,
+            width: 0,
+            height: 0
         }
-        this.updateRotation.bind(this);
-        this.updateGrayscale.bind(this);
-        this.updateBrightness.bind(this);
-        this.updateContrast.bind(this);
-        this.updateSepia.bind(this);
-
     }
     public updateRotation = (event: React.FormEvent<HTMLInputElement>):void => {
         this.setState({
@@ -67,7 +66,25 @@ class ShowImg extends React.Component<IProps, IState> {
         })
     }
 
+    public makePixels =( err:any, pixels:any)  => {
+        if(err) {
+          // tslint:disable-next-line:no-console
+          console.log("Bad image path")
+          return
+        }
+         this.setState({
+             width: pixels.shape[0],
+             height: pixels.shape[1]
+         })
+      }
+
+    public componentDidMount(){
+        const getPixels = require("get-pixels");
+        getPixels(this.state.fileURL,this.makePixels );
+    }
+
    public componentDidUpdate(oldProps: IProps) {
+        const getPixels = require("get-pixels");
         const newProps =this.props;
         if(oldProps.fileURL !== newProps.fileURL){
             this.setState({
@@ -78,26 +95,22 @@ class ShowImg extends React.Component<IProps, IState> {
                 brightness: 100,
                 sepia :1
             })
+            getPixels(this.props.fileURL,this.makePixels );
         }
 
     }
 
-   public render(){
-        const { rotation, grayscale, brightness, contrast,sepia } =  this.state;
+   public render(){  
+        const { rotation, grayscale, brightness, contrast,sepia,fileURL,width,height } =  this.state;
         return <div id="showImg" className = "showImg">
-        <img className="image"
-        style={
-                {transform: `rotate(${rotation}deg)`,
-                filter: `grayscale(${grayscale}%) brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%)` }
-                } 
-            src={this.state.fileURL} 
-            alt="picture"
-            />
+        <Image rotation={rotation} grayscale={grayscale} brightness={brightness} contrast={contrast} sepia={sepia} fileURL ={fileURL} />
+        <p>{width} x {height} px </p>
         <Rotate updateRotation = {(r:any) => this.updateRotation(r)} />
         <FilterImg min="0" max="100" label="Grayscale" action = {this.updateGrayscale} />
         <FilterImg min="0" max="200" label="Brightness" action = {this.updateBrightness} />
         <FilterImg min="0" max="200" label="Contrast" action = {this.updateContrast} />
         <FilterImg min="1" max="100" label="Sepia" action = {this.updateSepia} />
+        
     </div>
     }
 

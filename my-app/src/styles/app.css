@@ -23,6 +23,11 @@
     background-color: rgb(29, 40, 63);
   }
 
-  .image{
-      padding: 20px;
+  .image {
+    padding: 20px;
+    margin: 120px;
+    max-width: 600px;
+    max-height: 600px;
+    height: auto;
+    width: auto;
   }

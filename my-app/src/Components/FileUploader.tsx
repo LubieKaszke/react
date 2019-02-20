@@ -9,6 +9,7 @@ interface IState{
 }
 
 
+
 class FileUploader extends React.Component<any,IState> {
 
   constructor(props:any){
@@ -30,19 +31,6 @@ class FileUploader extends React.Component<any,IState> {
     }
 
  public render() {
-  const getPixels = require("get-pixels");
-   if(this.state.file){
-   
-   getPixels(this.state.fileURL, function(err:any, pixels:any) {
-     if(err) {
-       // tslint:disable-next-line:no-console
-       console.log("Bad image path")
-       return
-     }
-      // tslint:disable-next-line:no-console
-      console.log(pixels.shape.slice());
-   });
-  }
     return (
       <div className="container">
         <label htmlFor="file-upload" className="custom-file-upload"> Choose image
